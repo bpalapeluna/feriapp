@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
+@theme {
+  --color-ghost-white: #f8f8ff;
+  --color-light-sea-green: #20b2aa;
+  --color-light-sea-green-dark: #1ca098;
+  --color-oxford-navy: #003262;
+  --color-hairline: #d0d0cc;
+
+  --font-outfit: var(--font-outfit), sans-serif;
+  --font-nunito: var(--font-nunito), sans-serif;
+
+  --radius-bento: 2rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f8ff;
+  --foreground: #003262;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background-color: var(--color-ghost-white);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-ghost-white);
+  color: var(--color-oxford-navy);
+  font-family: var(--font-nunito);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-outfit {
+  font-family: var(--font-outfit);
+}
+
+.font-nunito {
+  font-family: var(--font-nunito);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.bento-card {
+  background: white;
+  border-radius: var(--radius-bento);
+  border: 1px solid rgba(32, 178, 170, 0.1);
+  box-shadow: 0 4px 24px -1px rgba(0, 50, 98, 0.03);
+}
+
+.custom-shadow {
+  box-shadow: 0 24px 48px -12px rgba(0, 50, 98, 0.08);
+}
+
+.soft-pill-shadow {
+  box-shadow: 0 8px 20px -4px rgba(32, 178, 170, 0.2);
+}
+
+.input-focus-effect:focus-within {
+  border-color: var(--color-light-sea-green);
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(32, 178, 170, 0.1);
 }
