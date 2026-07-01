@@ -21,7 +21,7 @@ export default function VendorBottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-50 flex w-full max-w-[375px] -translate-x-1/2 items-end justify-between rounded-t-[32px] border-t border-slate-100 bg-white/95 px-4 pt-3 pb-6 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md">
+    <nav className="sticky bottom-0 z-50 flex w-full items-end justify-between rounded-t-[32px] border-t border-slate-100 bg-white/95 px-4 pt-3 pb-6 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md">
       <NavItem item={items[0]} active={isActive(pathname, items[0].href)} />
       <NavItem item={items[1]} active={isActive(pathname, items[1].href)} />
 

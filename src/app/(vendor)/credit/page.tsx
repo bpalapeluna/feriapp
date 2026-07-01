@@ -4,10 +4,9 @@ import {
   IconArrowDownLeft,
   IconArrowUpRight,
   IconCreditCard,
-  IconX,
 } from "@tabler/icons-react";
-import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
+import BottomSheet from "@/components/BottomSheet";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
 import {
@@ -233,14 +232,11 @@ export default function CreditPage() {
         </Reveal>
       </main>
 
-      <AnimatePresence>
-        {showRequest && (
-          <RequestModal
-            onClose={() => setShowRequest(false)}
-            onConfirm={requestCredit}
-          />
-        )}
-      </AnimatePresence>
+      <RequestModal
+        open={showRequest}
+        onClose={() => setShowRequest(false)}
+        onConfirm={requestCredit}
+      />
     </div>
   );
 }
@@ -248,77 +244,51 @@ export default function CreditPage() {
 const presets = [20000, 50000, 100000];
 
 function RequestModal({
+  open,
   onClose,
   onConfirm,
 }: {
+  open: boolean;
   onClose: () => void;
   onConfirm: (amount: number) => void;
 }) {
   const [amount, setAmount] = useState(50000);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      className="fixed inset-0 z-[60] flex items-end justify-center bg-oxford-navy/40 backdrop-blur-sm"
-    >
-      <motion.div
-        initial={{ y: "100%" }}
-        animate={{ y: 0 }}
-        exit={{ y: "100%" }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[375px] rounded-t-[32px] bg-ghost-white p-6"
-      >
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="font-outfit text-xl font-bold text-oxford-navy">
-            Solicitar Crédito
-          </h2>
+    <BottomSheet open={open} onClose={onClose} title="Solicitar Crédito">
+      <div className="mb-4 grid grid-cols-3 gap-3">
+        {presets.map((p) => (
           <button
+            key={p}
             type="button"
-            onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-oxford-navy shadow-xs"
+            onClick={() => setAmount(p)}
+            className={`rounded-2xl py-3 text-sm font-bold transition-all ${
+              amount === p
+                ? "bg-light-sea-green text-white soft-pill-shadow"
+                : "bg-white text-oxford-navy/60"
+            }`}
           >
-            <IconX size={20} />
+            {formatCLP(p)}
           </button>
-        </div>
+        ))}
+      </div>
 
-        <div className="mb-4 grid grid-cols-3 gap-3">
-          {presets.map((p) => (
-            <button
-              key={p}
-              type="button"
-              onClick={() => setAmount(p)}
-              className={`rounded-2xl py-3 text-sm font-bold transition-all ${
-                amount === p
-                  ? "bg-light-sea-green text-white soft-pill-shadow"
-                  : "bg-white text-oxford-navy/60"
-              }`}
-            >
-              {formatCLP(p)}
-            </button>
-          ))}
-        </div>
+      <div className="mb-6 rounded-2xl bg-white p-4 text-center">
+        <p className="text-[10px] font-bold uppercase tracking-wider text-oxford-navy/40">
+          Monto seleccionado
+        </p>
+        <p className="font-outfit text-3xl font-bold text-oxford-navy">
+          {formatCLP(amount)}
+        </p>
+      </div>
 
-        <div className="mb-6 rounded-2xl bg-white p-4 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-oxford-navy/40">
-            Monto seleccionado
-          </p>
-          <p className="font-outfit text-3xl font-bold text-oxford-navy">
-            {formatCLP(amount)}
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => onConfirm(amount)}
-          className="soft-pill-shadow w-full rounded-full bg-light-sea-green py-4 font-outfit font-bold text-white transition-all active:scale-95"
-        >
-          Confirmar Solicitud
-        </button>
-      </motion.div>
-    </motion.div>
+      <button
+        type="button"
+        onClick={() => onConfirm(amount)}
+        className="soft-pill-shadow w-full rounded-full bg-light-sea-green py-4 font-outfit font-bold text-white transition-all active:scale-95"
+      >
+        Confirmar Solicitud
+      </button>
+    </BottomSheet>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nunito_Sans, Outfit } from "next/font/google";
+import PhoneFrame from "@/components/PhoneFrame";
 import { RoleProvider } from "@/components/RoleProvider";
 import "./globals.css";
 
@@ -30,8 +31,10 @@ export default function RootLayout({
       lang="es"
       className={`${outfit.variable} ${nunito.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-ghost-white text-oxford-navy">
-        <RoleProvider>{children}</RoleProvider>
+      <body className="min-h-full bg-slate-300 text-oxford-navy">
+        <RoleProvider>
+          <PhoneFrame>{children}</PhoneFrame>
+        </RoleProvider>
       </body>
     </html>
   );

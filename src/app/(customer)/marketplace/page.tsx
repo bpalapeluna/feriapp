@@ -41,7 +41,7 @@ export default function MarketplacePage() {
   }, [query, activeCategory]);
 
   return (
-    <div className="pt-20">
+    <div>
       <TopNav />
 
       <header className="relative w-full overflow-hidden bg-white py-12 px-6">
@@ -161,7 +161,7 @@ export default function MarketplacePage() {
 
 function TopNav() {
   return (
-    <nav className="fixed top-0 left-1/2 z-50 flex w-full max-w-[375px] -translate-x-1/2 items-center justify-between border-b border-light-sea-green/10 bg-ghost-white/80 px-6 py-4 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-light-sea-green/10 bg-ghost-white/80 px-6 py-4 backdrop-blur-md">
       <Link href="/marketplace" className="flex items-center gap-2">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-light-sea-green shadow-sm">
           <IconShoppingBag size={22} className="text-white" />

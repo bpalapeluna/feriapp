@@ -106,7 +106,16 @@ A `RoleProvider` (React Context, `src/components/RoleProvider.tsx`) wraps the ap
 This keeps each role's navigation focused and lets a feriante both sell and buy.
 
 ## Responsive strategy
-The app is mobile-first (each screen `max-w-[375px]`). On larger screens (tablet/desktop) the content stays in a centered 375px column:
-- Route group layouts `(customer)` / `(vendor)` add `sm:border-x sm:shadow-[...]` to delineate the "app column".
-- All fixed navigation (`CustomerBottomNav`, `VendorBottomNav`, marketplace `TopNav`) use `left-1/2 -translate-x-1/2 w-full max-w-[375px]` so they stay centered within the column instead of stretching edge-to-edge.
-- The Vendor type no longer carries a `patente` field (feriantes are informal entrepreneurs).
+The app is **always** a fixed mobile viewport of **430x932**, wrapped in an aesthetic phone frame (`src/components/PhoneFrame.tsx`) rendered by the root layout:
+- Outer wrapper centers the device on a slate gradient backdrop (scrollable if the viewport is shorter than 932px).
+- Bezel: dark rounded frame with decorative side buttons (volume/power).
+- Screen: a 430x932 rounded container with a **dynamic island** and a **status bar** (9:41, cellular/wifi/battery) occupying the top 44px.
+- A single internal **scroll area** (`absolute top-44px bottom-0 overflow-y-auto no-scrollbar`) holds all page content, so scrolling happens inside the phone, not the browser.
+- A `#phone-portal` div (absolute inset-0 over the screen) is the portal target for modals/bottom sheets so they overlay the whole device instead of escaping to the browser viewport.
+
+All previously `fixed` navigation was converted to `sticky` so it pins within the phone's scroll area:
+- `CustomerBottomNav` / `VendorBottomNav` -> `sticky bottom-0` (last child of a flex-col layout).
+- Marketplace `TopNav` -> `sticky top-0`.
+- Store/Credit modals -> reusable `BottomSheet` component using `createPortal` into `#phone-portal` (`absolute inset-0`).
+
+Route group layouts use `flex min-h-full flex-col` with page content in a `flex-1` div; the `max-w-[375px]` constraint and `sm` borders/shadows were removed (the phone frame replaces that containment).

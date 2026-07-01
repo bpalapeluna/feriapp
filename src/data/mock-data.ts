@@ -262,7 +262,7 @@ export const products: Product[] = [
     price: 1400,
     unit: "kg",
     image:
-      "https://images.unsplash.com/photo-1546470427-e26264be0b0d?auto=format&w=400&q=80&fit=crop",
+      "https://images.unsplash.com/photo-1582284540020-8acbe03f4924?auto=format&w=400&q=80&fit=crop",
     categoryId: "verduras",
     tags: ["Fresco"],
     rating: 4.4,

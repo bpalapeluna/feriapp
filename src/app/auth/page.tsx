@@ -39,12 +39,12 @@ export default function AuthPage() {
   };
 
   return (
-    <section className="flex min-h-screen select-none flex-col items-center justify-start overflow-x-clip bg-ghost-white px-5 pb-16 pt-12">
+    <section className="flex min-h-full select-none flex-col items-center justify-start overflow-x-clip bg-ghost-white px-5 pb-16 pt-4">
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative mb-8 w-full max-w-[375px]"
+        className="relative mb-8 w-full"
       >
         <div className="group relative h-40 w-full overflow-hidden rounded-[32px] border border-oxford-navy/5 shadow-sm">
           <Image
@@ -74,7 +74,7 @@ export default function AuthPage() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-        className="custom-shadow w-full max-w-[375px] overflow-hidden rounded-[40px] border border-oxford-navy/5 bg-white"
+        className="custom-shadow w-full overflow-hidden rounded-[40px] border border-oxford-navy/5 bg-white"
       >
         <div className="p-6 pb-2">
           <div className="flex rounded-2xl border border-oxford-navy/5 bg-ghost-white p-1.5">

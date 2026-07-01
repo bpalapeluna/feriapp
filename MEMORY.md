@@ -59,3 +59,19 @@
 ### Verification
 - `pnpm build` ✓, `pnpm lint` ✓, all 12 routes 200.
 - Runtime (curl): vendor nav shows "Mercado"; customer nav (default cliente) omits "Mi Puesto".
+
+## 2026-06-30 — Fixed 430x932 mobile viewport + phone frame
+
+### Work done
+- The view is now **always** a fixed 430x932 mobile screen, centered inside an aesthetic **phone frame** (`src/components/PhoneFrame.tsx`) rendered by the root layout: dark bezel with side buttons, dynamic island, and a status bar (9:41 + cellular/wifi/battery icons). The screen has its own internal scroll area (below the 44px status bar) with hidden scrollbar, so scrolling happens inside the device, not the browser.
+- Converted all previously `fixed` navigation to `sticky` so it pins within the phone's scroll area: `CustomerBottomNav` & `VendorBottomNav` -> `sticky bottom-0` (as the last child of a `flex min-h-full flex-col` route layout); marketplace `TopNav` -> `sticky top-0` (removed the page's `pt-20`).
+- Route group layouts dropped `max-w-[375px]` and the `sm` border/shadow containment (the phone frame now provides containment); content lives in a `flex-1 pb-4` div.
+- Refactored the Store "Nuevo Producto" and Credit "Solicitar Credito" modals into a reusable `BottomSheet` component (`src/components/BottomSheet.tsx`) that uses `createPortal` into a `#phone-portal` target inside the phone screen. This fixes the previous `fixed inset-0` modals that escaped to the browser viewport; they now overlay just the device.
+- Auth page: `min-h-screen` -> `min-h-full`, `pt-12` -> `pt-4`, removed `max-w-[375px]` constraints so content fills the 430 width.
+
+### Challenge -> Solution
+- **`fixed` escapes the phone frame**: fixed elements anchor to the browser viewport, so navs/modals would float outside the centered 430x932 device. Solution: navs -> `sticky` (pin within the scroll area); modals -> `createPortal` into a `#phone-portal` div that is `absolute inset-0` over the (non-scrolling) phone screen, so `inset-0` = the visible device and bottom sheets pin to the device bottom regardless of scroll position. BottomSheet uses a `mounted` guard to avoid `createPortal` during SSR.
+
+### Verification
+- `pnpm build` ✓, `pnpm lint` ✓, all 12 routes 200.
+- Runtime (curl): phone frame present (`9:41`, `phone-portal`, bezel), content renders inside.

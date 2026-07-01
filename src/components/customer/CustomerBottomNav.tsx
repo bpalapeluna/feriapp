@@ -24,7 +24,7 @@ export default function CustomerBottomNav() {
   const showStallFab = role === "feriante";
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-50 flex h-20 w-full max-w-[375px] -translate-x-1/2 items-center justify-between rounded-t-[32px] border-t border-hairline/30 bg-white px-6 shadow-[0_-8px_32px_rgba(0,0,0,0.04)]">
+    <nav className="sticky bottom-0 z-50 flex h-20 w-full items-center justify-between rounded-t-[32px] border-t border-hairline/30 bg-white px-6 shadow-[0_-8px_32px_rgba(0,0,0,0.04)]">
       {items.slice(0, 2).map((item) => (
         <NavButton
           key={item.href}

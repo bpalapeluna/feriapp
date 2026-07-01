@@ -1,15 +1,9 @@
 "use client";
 
-import {
-  IconEdit,
-  IconPlus,
-  IconSearch,
-  IconTrash,
-  IconX,
-} from "@tabler/icons-react";
-import { AnimatePresence, motion } from "motion/react";
+import { IconEdit, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
+import BottomSheet from "@/components/BottomSheet";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
 import { categories, getVendorProducts, type Product } from "@/data/mock-data";
@@ -163,22 +157,21 @@ export default function StorePage() {
         )}
       </main>
 
-      <AnimatePresence>
-        {showForm && (
-          <AddProductForm
-            onClose={() => setShowForm(false)}
-            onAdd={addProduct}
-          />
-        )}
-      </AnimatePresence>
+      <AddProductForm
+        open={showForm}
+        onClose={() => setShowForm(false)}
+        onAdd={addProduct}
+      />
     </div>
   );
 }
 
 function AddProductForm({
+  open,
   onClose,
   onAdd,
 }: {
+  open: boolean;
   onClose: () => void;
   onAdd: (data: {
     name: string;
@@ -199,119 +192,91 @@ function AddProductForm({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[60] flex items-end justify-center bg-oxford-navy/40 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ y: "100%" }}
-        animate={{ y: 0 }}
-        exit={{ y: "100%" }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[375px] rounded-t-[32px] bg-ghost-white p-6"
-      >
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="font-outfit text-xl font-bold text-oxford-navy">
-            Nuevo Producto
-          </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-oxford-navy shadow-xs"
+    <BottomSheet open={open} onClose={onClose} title="Nuevo Producto">
+      <form onSubmit={submit} className="space-y-4">
+        <div className="space-y-2">
+          <label
+            htmlFor="np-name"
+            className="ml-1 block text-sm font-extrabold text-oxford-navy"
           >
-            <IconX size={20} />
-          </button>
+            Nombre
+          </label>
+          <input
+            id="np-name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Ej: Duraznos Conservero"
+            className="w-full rounded-2xl border-2 border-transparent bg-white px-5 py-3.5 font-semibold text-oxford-navy outline-none focus:border-light-sea-green"
+          />
         </div>
 
-        <form onSubmit={submit} className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <label
-              htmlFor="np-name"
+              htmlFor="np-price"
               className="ml-1 block text-sm font-extrabold text-oxford-navy"
             >
-              Nombre
+              Precio
             </label>
             <input
-              id="np-name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Ej: Duraznos Conservero"
+              id="np-price"
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="1500"
               className="w-full rounded-2xl border-2 border-transparent bg-white px-5 py-3.5 font-semibold text-oxford-navy outline-none focus:border-light-sea-green"
             />
           </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label
-                htmlFor="np-price"
-                className="ml-1 block text-sm font-extrabold text-oxford-navy"
-              >
-                Precio
-              </label>
-              <input
-                id="np-price"
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="1500"
-                className="w-full rounded-2xl border-2 border-transparent bg-white px-5 py-3.5 font-semibold text-oxford-navy outline-none focus:border-light-sea-green"
-              />
-            </div>
-            <div className="space-y-2">
-              <label
-                htmlFor="np-unit"
-                className="ml-1 block text-sm font-extrabold text-oxford-navy"
-              >
-                Unidad
-              </label>
-              <select
-                id="np-unit"
-                value={unit}
-                onChange={(e) => setUnit(e.target.value)}
-                className="w-full rounded-2xl border-2 border-transparent bg-white px-5 py-3.5 font-semibold text-oxford-navy outline-none focus:border-light-sea-green"
-              >
-                <option value="kg">kg</option>
-                <option value="unid">unid</option>
-                <option value="lt">lt</option>
-                <option value="doc">doc</option>
-              </select>
-            </div>
-          </div>
-
           <div className="space-y-2">
             <label
-              htmlFor="np-category"
+              htmlFor="np-unit"
               className="ml-1 block text-sm font-extrabold text-oxford-navy"
             >
-              Categoría
+              Unidad
             </label>
             <select
-              id="np-category"
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
+              id="np-unit"
+              value={unit}
+              onChange={(e) => setUnit(e.target.value)}
               className="w-full rounded-2xl border-2 border-transparent bg-white px-5 py-3.5 font-semibold text-oxford-navy outline-none focus:border-light-sea-green"
             >
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
+              <option value="kg">kg</option>
+              <option value="unid">unid</option>
+              <option value="lt">lt</option>
+              <option value="doc">doc</option>
             </select>
           </div>
+        </div>
 
-          <button
-            type="submit"
-            className="soft-pill-shadow w-full rounded-full bg-light-sea-green py-4 font-outfit font-bold text-white transition-all active:scale-95"
+        <div className="space-y-2">
+          <label
+            htmlFor="np-category"
+            className="ml-1 block text-sm font-extrabold text-oxford-navy"
           >
-            Agregar Producto
-          </button>
-        </form>
-      </motion.div>
-    </motion.div>
+            Categoría
+          </label>
+          <select
+            id="np-category"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            className="w-full rounded-2xl border-2 border-transparent bg-white px-5 py-3.5 font-semibold text-oxford-navy outline-none focus:border-light-sea-green"
+          >
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          className="soft-pill-shadow w-full rounded-full bg-light-sea-green py-4 font-outfit font-bold text-white transition-all active:scale-95"
+        >
+          Agregar Producto
+        </button>
+      </form>
+    </BottomSheet>
   );
 }

@@ -3,8 +3,8 @@ import CustomerBottomNav from "@/components/customer/CustomerBottomNav";
 
 export default function CustomerLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto min-h-screen w-full max-w-[375px] bg-ghost-white pb-24 sm:border-x sm:border-hairline/40 sm:shadow-[0_0_60px_rgba(0,50,98,0.07)]">
-      {children}
+    <div className="flex min-h-full w-full flex-col bg-ghost-white">
+      <div className="flex-1 pb-4">{children}</div>
       <CustomerBottomNav />
     </div>
   );
